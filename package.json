@@ -1,0 +1,19 @@
+{
+  "name": "serbest-is-hazirlayan",
+  "version": "1.0.0",
+  "description": "Tələbələr üçün avtomatik sərbəst iş hazırlayan proqram",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "serbest",
+    "is",
+    "referat",
+    "universitet",
+    "docx"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+
