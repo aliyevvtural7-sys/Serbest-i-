@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sərbəst İş Hazırlayan Proqram | Ali Məktəblər Üçün Avtomatlaşdırılmış Sistem</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Yuxarı Başlıq və Alətlər Paneli -->
+  <header class="app-header">
+    <div class="logo-area">
+      <div class="logo-icon">📄</div>
+      <div>
+        <h1 class="logo-title">Sərbəst İş Generatoru</h1>
+        <p class="logo-subtitle">Azərbaycan Ali Məktəb Standartlarına Uyğun (.docx / Word)</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="btnCopyText" class="btn btn-secondary" title="Bütün mətni kopyala">
+        <span>📋</span> Mətni Kopyala
+      </button>
+      <button id="btnPrintPdf" class="btn btn-secondary" title="Sənədi çap et və ya PDF kimi saxla">
+        <span>🖨️</span> PDF / Çap Et
+      </button>
+      <button id="btnDownloadDocx" class="btn btn-primary" title="Microsoft Word faylı olaraq yüklə">
+        <span>📥</span> Word (.docx) Yüklə
+      </button>
+    </div>
+  </header>
+
+  <!-- Əsas İki Panelli Quruluş -->
+  <main class="app-container">
+    
+    <!-- SOL PANEL: Parametrlər və İdarəetmə -->
+    <aside class="sidebar">
+      
+      <!-- Tablar: Titul, Generasiya, Məzmun -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-generator">🚀 Ağıllı Generator</button>
+        <button class="tab-btn" data-tab="tab-titul">🏛️ Titul Vərəqi</button>
+        <button class="tab-btn" data-tab="tab-content">✍️ Mətn Redaktoru</button>
+      </div>
+
+      <!-- TAB 1: Ağıllı Generator -->
+      <div id="tab-generator" class="tab-content active">
+        <div class="card">
+          <h2 class="card-title">Mövzu və Avtomatlaşdırma</h2>
+          <p class="card-desc">İstənilən mövzunu daxil edin və ya hazır akademik şablonlardan birini seçin.</p>
+          
+          <div class="form-group">
+            <label for="inputTopic">Sərbəst İşin Mövzusu: <span class="required">*</span></label>
+            <input type="text" id="inputTopic" placeholder="Məs: Süni intellektin cəmiyyətdə rolu..." value="Müasir Cəmiyyətdə Süni İntellektin Rolu və İnkişaf Perspektivləri">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="inputSubject">Fənn:</label>
+              <input type="text" id="inputSubject" placeholder="Fənnin adı" value="Süni İntellekt Sistemləri">
+            </div>
+            <div class="form-group flex-1">
+              <label for="inputSpecialty">İxtisas:</label>
+              <input type="text" id="inputSpecialty" placeholder="İxtisas" value="Kompüter elmləri">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Populyar Hazır Mövzular:</label>
+            <div class="topic-chips">
+              <button type="button" class="chip" data-topic="ai">🤖 Süni İntellekt</button>
+              <button type="button" class="chip" data-topic="cyber">🔒 Kibertəhlükəsizlik</button>
+              <button type="button" class="chip" data-topic="economy">📈 Rəqəmsal İqtisadiyyat</button>
+              <button type="button" class="chip" data-topic="custom-green">🌱 Yaşıl Enerji və COP</button>
+              <button type="button" class="chip" data-topic="custom-karabakh">🇦🇿 Qarabağın Bərpası</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="generatorMode">Generasiya Rejimi:</label>
+            <select id="generatorMode">
+              <option value="offline">⚡ Daxili Akademik Generator (Limitsiz & Dərhal)</option>
+              <option value="gemini">🤖 Gemini AI Canlı Generasiya (API açarı ilə)</option>
+            </select>
+          </div>
+
+          <!-- Gemini API Key sahəsi (Yalnız AI seçildikdə görünür) -->
+          <div id="geminiKeyGroup" class="form-group hidden">
+            <label for="geminiApiKey">Google Gemini API Açarı: <a href="https://aistudio.google.com/app/apikey" target="_blank" class="help-link">Pulsuz açar al ↗</a></label>
+            <input type="password" id="geminiApiKey" placeholder="AIzaSy...">
+            <small class="help-text">Açar brauzerinizdə təhlükəsiz saxlanılır və serverdə qeyd olunmur.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="volumeSelect">Sənədin Həcmi:</label>
+            <select id="volumeSelect">
+              <option value="standard" selected>Standart Sərbəst İş (Giriş + 4 Bölmə + Nəticə + Ədəbiyyat)</option>
+              <option value="short">Yığcam Referat (Giriş + 2 Bölmə + Nəticə + Ədəbiyyat)</option>
+            </select>
+          </div>
+
+          <button id="btnGenerate" class="btn btn-block btn-accent">
+            <span>✨</span> Mətni Avtomatik Generasiya Et
+          </button>
+        </div>
+
+        <div class="card guide-card">
+          <h3 class="card-title">Standart Tələblər:</h3>
+          <ul class="standards-list">
+            <li><strong>Şrift:</strong> Times New Roman, 14 pt</li>
+            <li><strong>İnterval:</strong> 1.5 sətir məsafəsi</li>
+            <li><strong>Kənarlar:</strong> Sol 3 sm, Sağ 1.5 sm, Yuxarı 2 sm, Aşağı 2 sm</li>
+            <li><strong>Abzas:</strong> 1.25 sm daxilə çəkilmə</li>
+            <li><strong>Səhifələmə:</strong> Titulda nömrə görünmür, 2-dən başlayır</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TAB 2: Titul Vərəqi Parametrləri -->
+      <div id="tab-titul" class="tab-content">
+        <div class="card">
+          <h2 class="card-title">Titul Vərəqi Məlumatları</h2>
+          <p class="card-desc">Universitet və tələbə məlumatlarını tənzimləyin.</p>
+
+          <div class="form-group">
+            <label for="inputMinistry">Nazirlik / İdarə:</label>
+            <input type="text" id="inputMinistry" value="AZƏRBAYCAN RESPUBLİKASI ELM VƏ TƏHSİL NAZİRLİYİ">
+          </div>
+
+          <div class="form-group">
+            <label for="selectUniversity">Universitet Seçimi:</label>
+            <select id="selectUniversity">
+              <!-- JS ilə doldurulacaq -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="inputUniversityCustom">Universitetin Tam Adı:</label>
+            <input type="text" id="inputUniversityCustom" value="BAKI DÖVLƏT UNİVERSİTETİ">
+          </div>
+
+          <div class="form-group">
+            <label for="selectFaculty">Fakültə:</label>
+            <input type="text" id="inputFaculty" list="facultyList" placeholder="Fakültənin adı" value="Tətbiqi Riyaziyyat və Kibernetika fakültəsi">
+            <datalist id="facultyList">
+              <!-- JS ilə yenilənir -->
+            </datalist>
+          </div>
+
+          <div class="form-group">
+            <label for="inputDepartment">Kafedra:</label>
+            <input type="text" id="inputDepartment" placeholder="Məs: İnformatika kafedrası" value="İnformatika kafedrası">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="inputCourse">Kurs:</label>
+              <select id="inputCourse">
+                <option value="I">I kurs</option>
+                <option value="II">II kurs</option>
+                <option value="III" selected>III kurs</option>
+                <option value="IV">IV kurs</option>
+                <option value="V">V kurs</option>
+                <option value="Magistr I">Magistr I</option>
+                <option value="Magistr II">Magistr II</option>
+              </select>
+            </div>
+            <div class="form-group flex-1">
+              <label for="inputGroup">Qrup:</label>
+              <input type="text" id="inputGroup" placeholder="Məs: 682a" value="682a">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputStudent">Tələbə (Ad, Soyad, Ata adı):</label>
+            <input type="text" id="inputStudent" placeholder="Məs: Əliyev Əli Məmməd oğlu" value="Əliyev Əli Məmməd oğlu">
+          </div>
+
+          <div class="form-group">
+            <label for="inputSupervisor">Elmi Rəhbər / Müəllim:</label>
+            <input type="text" id="inputSupervisor" placeholder="Məs: dos. Məmmədov Vüqar Həsən oğlu" value="dos. Məmmədov Vüqar Həsən oğlu">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="inputCity">Şəhər:</label>
+              <input type="text" id="inputCity" value="Bakı">
+            </div>
+            <div class="form-group flex-1">
+              <label for="inputYear">İl:</label>
+              <input type="text" id="inputYear" value="2026">
+            </div>
+          </div>
+
+          <button id="btnApplyTitul" class="btn btn-block btn-secondary">
+            🔄 Titul Vərəqini Yenilə
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 3: Mətn Redaktoru -->
+      <div id="tab-content" class="tab-content">
+        <div class="card">
+          <h2 class="card-title">Mətn və Bölmələr</h2>
+          <p class="card-desc">Sənədin bölmələrini birbaşa buradan və ya sağdakı canlı vərəqdən dəyişə bilərsiniz.</p>
+
+          <div class="form-group">
+            <label for="editPlan">Plan (Hər bənd yeni sətirdə):</label>
+            <textarea id="editPlan" rows="6"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="editConclusion">Nəticə və Təkliflər:</label>
+            <textarea id="editConclusion" rows="6"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="editReferences">İstifadə Edilmiş Ədəbiyyat (Hər mənbə yeni sətirdə):</label>
+            <textarea id="editReferences" rows="6"></textarea>
+          </div>
+
+          <button id="btnApplyContentChanges" class="btn btn-block btn-secondary">
+            💾 Dəyişiklikləri Sənədə Tətbiq Et
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- SAĞ PANEL: Canlı A4 Sənəd Önizləməsi -->
+    <section class="preview-area">
+      <div class="preview-toolbar">
+        <div class="doc-info">
+          <span class="status-indicator"></span>
+          <span>A4 Görünüşü (Canlı Redaktə Rejimi Aktivdir - Mətnə klikləyib dəyişə bilərsiniz)</span>
+        </div>
+        <div class="zoom-controls">
+          <button id="btnZoomOut" class="btn-icon" title="Kiçilt">-</button>
+          <span id="zoomLevel">100%</span>
+          <button id="btnZoomIn" class="btn-icon" title="Böyüt">+</button>
+        </div>
+      </div>
+
+      <!-- Vərəqlər Konteyneri -->
+      <div class="pages-wrapper" id="pagesWrapper">
+        <!-- Vərəqlər dinamik JS ilə render olunur -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bildiriş və Yükləmə Modal/Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="knowledge-base.js"></script>
+  <script src="docx-builder.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
